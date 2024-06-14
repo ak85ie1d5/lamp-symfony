@@ -20,6 +20,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 
 # Install libraries with Docker PHP extention package
 RUN docker-php-ext-install -j$(nproc) \
+    pcntl \
     bcmath \
     exif \
     gd \
