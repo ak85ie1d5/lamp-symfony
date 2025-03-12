@@ -1,6 +1,4 @@
-__
+httpdocs/
 .idea
-test_joubert_symfony
-public
 
 .env
