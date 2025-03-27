@@ -61,9 +61,9 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash \
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Install NodeJS
-COPY --from=node:lts-bookworm /usr/local/bin /usr/local/bin
-COPY --from=node:lts-bookworm /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node:lts-bookworm /opt /opt
+# COPY --from=node:lts-bookworm /usr/local/bin /usr/local/bin
+# COPY --from=node:lts-bookworm /usr/local/lib/node_modules /usr/local/lib/node_modules
+# COPY --from=node:lts-bookworm /opt /opt
 
 # Generate and enable SSL/TLS certificate
 RUN set -eux; \

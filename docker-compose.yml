@@ -10,7 +10,7 @@ services:
       - "7080:80"
       - "7443:443"
     volumes:
-      - ./:/var/www/html
+      - ./html:/var/www/html
       - ./Docker/php/php.ini:/usr/local/etc/php/php.ini
     env_file:
       - .env
@@ -44,20 +44,23 @@ services:
       - PMA_USER=${DB_USER}
       - PMA_PASSWORD=${DB_PASSWORD}
       - UPLOAD_LIMIT=200M
+
   #maildev:
   #  image: maildev/maildev
   #  ports:
   #    - "1080:1080"
-  #node:
-  #  image: "node:20.10.0"
-  #  user: "node"
-  #  working_dir: /home/node/app
-  #  environment:
-  #    - NODE_ENV=development
-  #  volumes:
-  #    - ./:/home/node/app
-  #  expose:
-  #    - "6081"
-  #  command: "tail -f /dev/null"
+  node:
+    build:
+      context: .
+      dockerfile: Docker/node/Dockerfile
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "9082"
+    command: "tail -f /dev/null"
 volumes:
   sql:
