@@ -45,10 +45,10 @@ services:
       - PMA_PASSWORD=${DB_PASSWORD}
       - UPLOAD_LIMIT=200M
 
-  #maildev:
-  #  image: maildev/maildev
-  #  ports:
-  #    - "1080:1080"
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
   node:
     build:
       context: .
