@@ -33,7 +33,7 @@ services:
       - sql:/var/lib/mysql
       - ./Docker/sql/database:/docker-entrypoint-initdb.d
   phpmyadmin:
-    image: phpmyadmin:5.2.1-apache
+    image: phpmyadmin:latest
     depends_on:
       - sql
     ports:
