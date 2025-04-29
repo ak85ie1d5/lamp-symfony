@@ -78,4 +78,9 @@ VOLUME /var/www/html
 
 RUN useradd -m devmaster
 
+# Set entrypoint
+COPY Docker/php/local-deploy.sh /usr/local/bin/local-deploy
+RUN chmod +x /usr/local/bin/local-deploy
+ENTRYPOINT ["local-deploy"]
+
 CMD ["apache2-foreground"]
