@@ -65,13 +65,17 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # COPY --from=node:lts-bookworm /usr/local/lib/node_modules /usr/local/lib/node_modules
 # COPY --from=node:lts-bookworm /opt /opt
 
-# Generate and enable SSL/TLS certificate
+# Add and enable SSL/TLS certificate
+COPY Docker/php/cert/businessprofilers.pem /root/ssl-cert-snakeoil.pem
 RUN set -eux; \
-	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/ssl-cert-snakeoil.key -out /etc/ssl/certs/ssl-cert-snakeoil.pem -subj "/C=FR/ST=France/L=Saint Maximin/O=Theta/OU=Theta Team Web/CN=devmaster.local"; \
+    openssl pkey -in /root/ssl-cert-snakeoil.pem -out /etc/ssl/private/ssl-cert-snakeoil.key; \
+    openssl x509 -in /root/ssl-cert-snakeoil.pem -out /etc/ssl/certs/ssl-cert-snakeoil.pem
+RUN set -eux; \
 	chmod 777 /etc/ssl/private; \
 	chmod 777 /etc/ssl/private/ssl-cert-snakeoil.key; \
-	a2enmod ssl; \
-	a2ensite default-ssl
+    chmod 644 /etc/ssl/certs/ssl-cert-snakeoil.pem; \
+    a2enmod ssl; \
+    a2ensite default-ssl
 
 WORKDIR /var/www/html
 VOLUME /var/www/html
