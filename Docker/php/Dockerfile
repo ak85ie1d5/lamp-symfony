@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     curl \
     git \
+    inotify-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure libraries with Docker PHP extention package
@@ -45,8 +46,10 @@ RUN docker-php-ext-enable xdebug \
     && docker-php-ext-enable zip \
     && docker-php-ext-enable opcache
 
+ENV SYMFONY_ROOT /var/www/html
+
 # change default Apache2 document root
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT ${SYMFONY_ROOT}/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
@@ -77,14 +80,16 @@ RUN set -eux; \
     a2enmod ssl; \
     a2ensite default-ssl
 
-WORKDIR /var/www/html
-VOLUME /var/www/html
+WORKDIR ${SYMFONY_ROOT}
+VOLUME ${SYMFONY_ROOT}
 
 RUN useradd -m devmaster
 
 # Set entrypoint
 COPY Docker/php/local-deploy.sh /usr/local/bin/local-deploy
 RUN chmod +x /usr/local/bin/local-deploy
+COPY Docker/php/asset-map-watch.sh /usr/local/bin/asset-map-watch
+RUN chmod +x /usr/local/bin/asset-map-watch
 ENTRYPOINT ["local-deploy"]
 
 CMD ["apache2-foreground"]
