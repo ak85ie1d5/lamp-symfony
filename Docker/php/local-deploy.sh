@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cd /var/www/html || exit
+cd ${SYMFONY_ROOT} || exit
 
 # Generate the .env.local file
 if [ ! -f '.env.local' ]; then
@@ -20,9 +20,15 @@ if [ ! -d 'vendor' ]; then composer install; fi
 
 # Install assets
 if [ -f 'importmap.php' ]; then
-  if [ ! -d 'public/bundles' ]; then php bin/console asset:install; fi
+  if [ ! -d  'assets/vendor' ]; then
+    php bin/console importmap:install;
+  fi
 
-  if [ ! -d 'public/assets' ]; then php bin/console asset-map:compile; fi
+  if [ ! -d 'public/assets' ]; then
+    php bin/console asset:install;
+    php bin/console sass:build;
+    php bin/console asset-map:compile;
+  fi
 fi
 
 exec "$@"
