@@ -69,7 +69,6 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # COPY --from=node:lts-bookworm /opt /opt
 
 # Add and enable SSL/TLS certificate
-COPY Docker/php/cert/businessprofilers.pem /root/ssl-cert-snakeoil.pem
 RUN set -eux; \
     openssl pkey -in /root/ssl-cert-snakeoil.pem -out /etc/ssl/private/ssl-cert-snakeoil.key; \
     openssl x509 -in /root/ssl-cert-snakeoil.pem -out /etc/ssl/certs/ssl-cert-snakeoil.pem
