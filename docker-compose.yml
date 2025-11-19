@@ -7,8 +7,8 @@ services:
       - sql
     user: "1000:1000"
     ports:
-      - "7080:80"
-      - "7443:443"
+      - "5080:80"
+      - "5443:443"
     volumes:
       - ./html:/var/www/html
       - ./Docker/php/php.ini:/usr/local/etc/php/php.ini
@@ -37,7 +37,7 @@ services:
     depends_on:
       - sql
     ports:
-      - "7081:80"
+      - "5081:80"
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=sql
