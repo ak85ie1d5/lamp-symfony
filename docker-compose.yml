@@ -49,18 +49,5 @@ services:
     image: maildev/maildev
     ports:
       - "1080:1080"
-  node:
-    build:
-      context: .
-      dockerfile: Docker/node/Dockerfile
-    user: "node"
-    working_dir: /home/node/app
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - ./:/home/node/app
-    expose:
-      - "9082"
-    command: "tail -f /dev/null"
 volumes:
   sql:
