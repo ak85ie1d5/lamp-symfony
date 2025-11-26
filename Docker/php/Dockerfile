@@ -70,14 +70,11 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Add and enable SSL/TLS certificate
 RUN set -eux; \
-    openssl pkey -in /root/ssl-cert-snakeoil.pem -out /etc/ssl/private/ssl-cert-snakeoil.key; \
-    openssl x509 -in /root/ssl-cert-snakeoil.pem -out /etc/ssl/certs/ssl-cert-snakeoil.pem
-RUN set -eux; \
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/ssl-cert-snakeoil.key -out /etc/ssl/certs/ssl-cert-snakeoil.pem -subj "/C=FR/ST=France/L=Chantilly/O=Business Profilers/OU=BP Team Web/CN=businessprofilers.local"; \
 	chmod 777 /etc/ssl/private; \
 	chmod 777 /etc/ssl/private/ssl-cert-snakeoil.key; \
-    chmod 644 /etc/ssl/certs/ssl-cert-snakeoil.pem; \
-    a2enmod ssl; \
-    a2ensite default-ssl
+	a2enmod ssl; \
+	a2ensite default-ssl
 
 WORKDIR ${SYMFONY_ROOT}
 VOLUME ${SYMFONY_ROOT}
