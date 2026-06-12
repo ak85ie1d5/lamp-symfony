@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     inotify-tools \
+    mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure libraries with Docker PHP extention package

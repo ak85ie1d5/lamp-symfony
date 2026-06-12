@@ -25,6 +25,7 @@ services:
       - MARIADB_USER=${DB_USER}
       - MARIADB_PASSWORD=${DB_PASSWORD}
       - MARIADB_RANDOM_ROOT_PASSWORD='yes'
+      - MARIADB_AUTO_UPGRADE=1
     # - MYSQL_DATABASE=${DB_NAME}
     # - MYSQL_USER=${DB_USER}
     # - MYSQL_PASSWORD=${DB_PASSWORD}
@@ -48,6 +49,6 @@ services:
   maildev:
     image: maildev/maildev
     ports:
-      - "1080:1080"
+      - "5082:1080"
 volumes:
   sql:
