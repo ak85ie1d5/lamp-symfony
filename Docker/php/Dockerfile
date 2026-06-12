@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     inotify-tools \
     mariadb-client \
+    openssh-client \
+    rsync \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure libraries with Docker PHP extention package
